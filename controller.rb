@@ -19,8 +19,6 @@ class Controller
   end
 
   def self.create params
-    #book = BOOK_DB<< Book.new(params[:title], params[:author])
-    puts "params #{params}"
     id = $db[:books].insert([:title, :author], [params[:title], params[:author]])
     book = $db.from(:books).first(id: id)
     [201, book.to_json]
