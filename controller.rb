@@ -14,8 +14,19 @@ end
 }
 
 class Controller
-  def self.index
-    return [200, $db.from(:books).all.to_json]
+  def self.index params
+    # sort by id by default
+    # param :page
+    # param :per_page
+    puts params
+    per_page = params[:per_page].to_i
+    page = params[:page].to_i
+    offset = (page - 1) * per_page
+    items = $db.from(:books).order(:id).limit(per_page, offset).all
+    total_item_count = $db.from(:books).count
+    page_count = (total_item_count / per_page).ceil
+    json = {items: items, page: page, per_page: per_page, page_count: page_count, total_item_count: total_item_count}.to_json
+    return [200, json]
   end
 
   def self.create params

@@ -20,7 +20,8 @@ class BookServer < WEBrick::HTTPServlet::AbstractServlet
   def do_GET request, response
     status, body = nil, nil
     if request.path_info.empty? then
-      status, body = Controller.index
+      params = request.query.transform_keys(&:to_sym)
+      status, body = Controller.index params
     else
       id = request.path_info.gsub('/', '')
       status, body = Controller.show id
