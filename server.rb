@@ -32,7 +32,12 @@ class BookServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def do_POST request, response
+    response.status = 500
+    response['Content-Type'] = 'text/plain'
+    response.body = 'Internal Server Error'
+=begin
     begin
+      raise
       post_data = parse_post_data request.body
       status, body = Controller.create post_data
       response.status = status
@@ -42,6 +47,7 @@ class BookServer < WEBrick::HTTPServlet::AbstractServlet
       response.status = 400
       response.body = { message: "Please add correct url-encoded form data fields" }.to_json
     end
+=end
   end
 
   def do_DELETE request, response

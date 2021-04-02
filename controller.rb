@@ -18,7 +18,6 @@ class Controller
     # sort by id by default
     # param :page
     # param :per_page
-    puts params
     per_page = params[:per_page].to_i
     page = params[:page].to_i
     offset = (page - 1) * per_page
